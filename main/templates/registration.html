@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Registration{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-centre">Реєстрація</h1>
+    <form action="/registration" method="post">
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input class="form-control" type="text" id="username" name="username" minlength="1" maxlength="50" placeholder="Мінімум символів: 1, максимум: 50">
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input class="form-control" type="email" id="email" name="email" maxlength="100" placeholder="Максимум символів: 100">
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input class="form-control" type="password" id="password" name="password" minlength="5" maxlength="50" placeholder="Мінімум символів: 5, максимум: 50">
+        </div><br>
+        <div class="form-group">
+            <button type="submit" class="btn btn-warning">Submit</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,62 @@
+body{
+background: White;
+margin-top: 2px;
+margin-left: 2px;
+}
+
+header{
+margin-left: 2px;
+}
+
+h1{
+font-family: segoe script;
+font-size: 3.5em;
+font-weight: bold;
+color: DodgerBlue;
+}
+
+h6{
+font-family: segoe script;
+font-size: 0.7em;
+font-weight: bold;
+}
+
+p{
+font-family: comic sans ms;
+font-size: 1.2em;
+color: DarkSlateGray;
+}
+
+.center{
+  text-align: center;
+}
+
+.right {
+  text-align: right;
+}
+
+.chat-container {
+  width: 600px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+
+.chat-window {
+  flex-grow: 1;
+  overflow-y: auto;
+  height: 300px;
+  max-height: 300px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+}
+
+.message-input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}

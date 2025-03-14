@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Error{% endblock %}
+
+{% block content %}
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="pt-4 alert alert-warning">
+    <p class="center">{{access_denied}}</p>
+</div><br>
+<div class="center"><a href="{{url_for('index')}}" type="button" class="btn btn-warning">Повернутися на головну сторінку</a></div>
+{% endblock %}

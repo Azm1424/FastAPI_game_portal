@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Error{% endblock %}
+
+{% block content %}
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="pt-4 alert alert-warning">
+    <p class="center">{{error_mess}}</p>
+</div><br>
+<div class="center"><a href="{{url_for('registration_form')}}" type="button" class="btn btn-warning">Спробувати ще раз</a></div>
+{% endblock %}

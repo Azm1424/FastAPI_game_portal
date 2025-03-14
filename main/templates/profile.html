@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+
+{% block title %}{{profile.1}}'s profile{% endblock %}
+
+{% block content %}
+    <h1 style="font-family: vineta bt; font-size: 2.4em; color: DeepSkyBlue;" class="center">Профіль: {{profile.1}}</h1>
+    <div class="list-group">
+    <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3 list-group-item-info" aria-current="true">
+      <div class="d-flex gap-2 w-100 justify-content-between">
+        <div>
+          {% if profile.2 %}
+              <h5 class="mx-5 mb-0">✅ Ім'я</h5>
+              <p class="mx-5 mb-0 opacity-75">{{profile.2}}</p>
+          {% else %}
+            <h5 class="mx-5 mb-0">❌ Ім'я</h5>
+            <p class="mx-5 mb-0 opacity-75">Немає даних</p>
+          {% endif %}
+        </div>
+      </div>
+    </a>
+    <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3 list-group-item-info" aria-current="true">
+      <div class="d-flex gap-2 w-100 justify-content-between">
+        <div>
+          {% if profile.3 %}
+              <h5 class="mx-5 mb-0">✅ Вік</h5>
+              <p class="mx-5 mb-0 opacity-75">{{profile.3}}</p>
+          {% else %}
+            <h5 class="mx-5 mb-0">❌ Вік</h5>
+            <p class="mx-5 mb-0 opacity-75">Немає даних</p>
+          {% endif %}
+        </div>
+      </div>
+    </a>
+    <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3 list-group-item-info" aria-current="true">
+      <div class="d-flex gap-2 w-100 justify-content-between">
+        <div>
+          {% if profile.4 %}
+              <h5 class="mx-5 mb-0">✅ Країна</h5>
+              <p class="mx-5 mb-0 opacity-75">{{profile.4}}</p>
+          {% else %}
+            <h5 class="mx-5 mb-0">❌ Країна</h5>
+            <p class="mx-5 mb-0 opacity-75">Немає даних</p>
+          {% endif %}
+        </div>
+      </div>
+    </a>
+    <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3 list-group-item-info" aria-current="true">
+      <div class="d-flex gap-2 w-100 justify-content-between">
+        <div>
+          {% if profile.5 %}
+              <h5 class="mx-5 mb-0">✅ Місто</h5>
+              <p class="mx-5 mb-0 opacity-75">{{profile.5}}</p>
+          {% else %}
+            <h5 class="mx-5 mb-0">❌ Місто</h5>
+            <p class="mx-5 mb-0 opacity-75">Немає даних</p>
+          {% endif %}
+        </div>
+      </div>
+    </a>
+    <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3 list-group-item-info" aria-current="true">
+      <div class="d-flex gap-2 w-100 justify-content-between">
+        <div>
+          {% if profile.6 %}
+              <h5 class="mx-5 mb-0">✅ Контакти</h5>
+              <p class="mx-5 mb-0 opacity-75">{{profile.6}}</p>
+          {% else %}
+            <h5 class="mx-5 mb-0">❌ Контакти</h5>
+            <p class="mx-5 mb-0 opacity-75">Немає даних</p>
+          {% endif %}
+        </div>
+      </div>
+    </a>
+    <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3 list-group-item-info" aria-current="true">
+      <div class="d-flex gap-2 w-100 justify-content-between">
+        <div>
+          {% if profile.7 %}
+              <h5 class="mx-5 mb-0">✅ Улюблена гра</h5>
+              <p class="mx-5 mb-0 opacity-75">{{profile.7}}</p>
+          {% else %}
+            <h5 class="mx-5 mb-0">❌ Улюблена гра</h5>
+            <p class="mx-5 mb-0 opacity-75">Немає даних</p>
+          {% endif %}
+        </div>
+      </div>
+    </a>
+  </div><br>
+{% if username == profile.1 %}
+<div class="container">
+    <div class="row">
+        <div>
+            <div class="col-12">
+                <details> <summary style="margin:auto; display:block;" class="btn btn-secondary">Редагувати профіль</summary><br><br>
+                    <form method="post" action="/my_profile">
+                        <div class="form-group">
+                            <label>Name:</label>
+                            {% if profile.2 %}
+                                <input class="form-control" type="text" value="{{profile.2}}" name="name" minlength="1" maxlength="50" placeholder="Мінімум символів: 1, максимум: 50">
+                            {% else %}
+                                <input class="form-control" type="text" name="name" minlength="1" maxlength="50" placeholder="Мінімум символів: 1, максимум: 50">
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            <label>Age:</label>
+                            {% if profile.3 %}
+                                <input class="form-control" type="text" value="{{profile.3}}" name="age" minlength="1" maxlength="50" placeholder="Мінімум символів: 1, максимум: 50">
+                            {% else %}
+                                <input class="form-control" type="text" name="age" minlength="1" maxlength="50" placeholder="Мінімум символів: 1, максимум: 50">
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            <label>Country:</label>
+                            {% if profile.4 %}
+                                <input class="form-control" type="text" value="{{profile.4}}" name="country" minlength="1" maxlength="50" placeholder="Мінімум символів: 1, максимум: 50">
+                            {% else %}
+                                <input class="form-control" type="text" name="country" minlength="1" maxlength="50" placeholder="Мінімум символів: 1, максимум: 50">
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            <label>City:</label>
+                            {% if profile.5 %}
+                                <input class="form-control" type="text" value="{{profile.5}}" name="city" minlength="1" maxlength="50" placeholder="Мінімум символів: 1, максимум: 50">
+                            {% else %}
+                                <input class="form-control" type="text" name="city" minlength="1" maxlength="50" placeholder="Мінімум символів: 1, максимум: 50">
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            <label>Contacts:</label>
+                            {% if profile.6 %}
+                                <input class="form-control" type="text" value="{{profile.6}}" name="contacts" minlength="1" maxlength="50" placeholder="Мінімум символів: 1, максимум: 50">
+                            {% else %}
+                                <input class="form-control" type="text" name="contacts" minlength="1" maxlength="50" placeholder="Мінімум символів: 1, максимум: 50">
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            <label>Favourite_game:</label>
+                            {% if profile.7 %}
+                                <input class="form-control" type="text" value="{{profile.7}}" name="favourite_game" minlength="1" maxlength="50" placeholder="Мінімум символів: 1, максимум: 50">
+                            {% else %}
+                                <input class="form-control" type="text" name="favourite_game" minlength="1" maxlength="50" placeholder="Мінімум символів: 1, максимум: 50">
+                            {% endif %}
+                        </div><br>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-warning">Submit</button>
+                        </div>
+                    </form>
+                </details><br>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

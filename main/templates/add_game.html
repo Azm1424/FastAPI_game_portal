@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Add game{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-centre">Додавання гри</h1>
+    <form action="/add_game" method="post">
+        <div class="form-group">
+            <label>Картинка:</label>
+            <input type="text" name="img">
+        </div>
+        <div class="form-group">
+            <label>Назва:</label>
+            <input type="text" name="title">
+        </div>
+        <div class="form-group">
+            <label>Опис:</label>
+            <input type="text" name="description">
+        </div>
+        <div class="form-group">
+            <label>Жанр:</label>
+            <input type="text" name="genre">
+        </div>
+        <div class="form-group">
+            <label>Рейтинг igdb:</label>
+            <input type="number" step="0.1" name="rating_igdb">
+        </div>
+        <div class="form-group">
+            <label>Трейлер:</label>
+            <input type="text" name="trailer">
+        </div>
+        <div class="form-group">
+            <label>Платформи:</label>
+            <input type="text" name="platforms">
+        </div><br>
+        <div class="form-group">
+            <button type="submit" class="btn btn-warning">Додати</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Результати пошуку{% endblock %}
+
+{% block content %}
+<br><br><br>
+<h1 style="font-family: vineta bt; font-size: 2.4em; color: DeepSkyBlue;" class="center">Результати пошуку</h1>
+<ul class="list-group">
+  {% for i in searched %}
+    <li class="list-group-item px-5 mx-5 border-white">
+      <a href="{{url_for('inspection_of_the_game', id=i[0])}}" class="text-dark rounded-pill list-group-item list-group-item-action list-group-item-info center"><strong>{{i[2]}}</strong></a>
+    </li>
+  {% endfor %}
+</ul>
+{% endblock %}

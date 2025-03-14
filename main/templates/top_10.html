@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Топ 10{% endblock %}
+
+{% block content %}
+<br><br><br>
+<h1 style="font-family: vineta bt; font-size: 2.4em; color: DeepSkyBlue;" class="center">Топ 10</h1>
+    {% for i in ratings %}
+        {% if i.3 %}
+            {% if i.0 == 1 %}
+                <div class="list-group">
+                    <a style="display:block; width:500px; margin:auto; background: Gold;" href="{{url_for('inspection_of_the_game', id=i[1])}}" class="rounded-pill list-group-item list-group-item-action">
+                            <p class="mb-1 left">{{i.0}}. {{i.2}} — {{i.3}}</p>
+                    </a>
+                </div><br>
+            {% elif i.0 == 2 %}
+                <div class="list-group">
+                    <a style="display:block; width:500px; margin:auto; background: Silver;" href="{{url_for('inspection_of_the_game', id=i[1])}}" class="rounded-pill list-group-item list-group-item-action">
+                            <p class="mb-1 left">{{i.0}}. {{i.2}} — {{i.3}}</p>
+                    </a>
+                </div><br>
+            {% elif i.0 == 3 %}
+                <div class="list-group">
+                    <a style="display:block; width:500px; margin:auto; background: Peru;" href="{{url_for('inspection_of_the_game', id=i[1])}}" class="rounded-pill list-group-item list-group-item-action">
+                            <p class="mb-1 left">{{i.0}}. {{i.2}} — {{i.3}}</p>
+                    </a>
+                </div><br>
+            {% else %}
+                <div class="list-group">
+                    <a style="display:block; width:500px; margin:auto; background: LightSkyBlue;" href="{{url_for('inspection_of_the_game', id=i[1])}}" class="rounded-pill list-group-item list-group-item-action">
+                            <p class="mb-1 left">{{i.0}}. {{i.2}} — {{i.3}}</p>
+                    </a>
+                </div><br>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+{% endblock %}

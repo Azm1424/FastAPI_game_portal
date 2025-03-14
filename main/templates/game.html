@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+
+{% block title %}{{game[2]}}
+{% endblock %}
+
+{% block content %}
+<h1 class="m-3 center">{{game[2]}}</h1>
+<p class="m-3 center"><b>{{game[4]}}</b></p>
+<p class="m-3 center"><b>{{game[7]}}</b></p>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <img src="{{game[1]}}" width="600px;">
+        </div>
+        <div class="col-md-6">
+            {% if username %}
+                <div class="chat-container">
+                    <div id="chat" class="chat-window">
+                        {% for mess in history %}
+                        <p>{{ mess }}</p>
+                        {% endfor %}
+
+                    </div>
+                </div>
+                <input class="message-input" id="message" type="text" placeholder="Друкувати...">
+                <button onclick="sendMessage()">Надіслати</button>
+            {% else %}
+                <p>Щоб мати доступ до чату, <a href="{{url_for('login_form')}}" type="button">увійдіть</a> в акаунт</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div>
+            <div class="col-9">
+                <p>{{game[3]}}</p>
+                <details> <summary class="btn btn-info text-white">Трейлер</summary><br><br> <iframe width='560' height='315' src={{game[6]}} title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share' referrerpolicy='strict-origin-when-cross-origin' allowfullscreen></iframe></details>
+                <p>Оцінка від експертів: {{game[5]}}</p>
+                {% if game[8] %}
+                    <p>Оцінка від користувачів: {{game[8]}}</p>
+                {% else %}
+                    <p>Оцінка від користувачів: N/a</p>
+                {% endif %}
+                {% if username %}
+                        <details> <summary class="btn btn-secondary">Огляд та оцінка гри</summary><br><br>
+                                <form method="post">
+                                    <div class="form-group">
+                                        <label>Reviews: </label>
+                                        <input class="form-control" type="text" maxlength="1000" name="review" placeholder="Максимум 1000 символів">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Rating: </label>
+                                        <select class="form-select" name="rating">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                        </select>
+                                    </div><br>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-success">Submit</button>
+                                    </div>
+                                </form>
+                                <p style="font-size: 1.0em;">*Щоб оновити огляд та оцінку, відправте форму повторно</p>
+                        </details><br>
+                {% else %}
+                    <p>Щоб мати можливість написати огляд та оцінити гру, <a href="{{url_for('login_form')}}" type="button">увійдіть</a> в акаунт</p>
+                {% endif %}<br>
+                <div class="container">
+                    <div class="row">
+                        {% for i in reviews %}
+                            <div class="col-6">
+                                <div class="card m-1 p-0">
+                                    <div class="card-header"><a href="{{url_for('profile_review', user=i[2])}}"><p>{{i.2}}</p></a> <h6 class="right">{{i.5}}</h6></div>
+                                    <div class="card-title">
+                                        {% if i.4 == 10 %}
+                                            <div>
+                                                <img class="mt-1 mx-1" src="/static/10.png" width="60px;" height="50px;">
+                                            </div>
+                                        {% elif i.4 >= 8 %}
+                                            <div>
+                                                <h4 class="mt-1 mx-1 py-2 px-3 text-white d-inline-block bg-success rounded-pill">{{i.4}}</h4>
+                                            </div>
+                                        {% elif i.4 >= 5%}
+                                            <div>
+                                                <h4 class="mt-1 mx-1 py-2 px-3 text-white d-inline-block bg-warning rounded-pill">{{i.4}}</h4>
+                                            </div>
+                                        {% else %}
+                                            <div>
+                                                <h4 class="mt-1 mx-1 py-2 px-3 text-white d-inline-block bg-danger rounded-pill">{{i.4}}</h4>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="card-body">
+                                        {%if i.3|length <= 200%}
+                                            <p style="font-family: comic sans ms; font-size: 1.0em; color: DarkSlateGray;">{{i[3]}}</p>
+                                        {% else %}
+                                            <p style="font-family: comic sans ms; font-size: 1.0em; color: DarkSlateGray;">{{i[3]|truncate(100, True)}}</p>
+                                            <details><summary class="btn btn-secondary">Більше</summary>
+                                                <p style="font-family: comic sans ms; font-size: 1.0em; color: DarkSlateGray;">{{i[3]}}</p>
+                                            </details>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    let gameId = "{{ game[0] }}";
+    let ws = new WebSocket(`ws://${window.location.host}/ws/game/${gameId}`);
+
+    function scrollToBottom() {
+        let chat = document.getElementById("chat");
+        chat.scrollTop = chat.scrollHeight;
+    }
+
+    ws.onmessage = function(event) {
+        let chat = document.getElementById("chat");
+        let message = document.createElement("p");
+        message.textContent = event.data;
+        chat.appendChild(message);
+        chat.scrollTop = chat.scrollHeight;
+    };
+
+    function sendMessage() {
+        let input = document.getElementById("message");
+        let chat = document.getElementById("chat");
+        ws.send(input.value);
+        input.value = "";
+        chat.scrollTop = chat.scrollHeight;
+    }
+    document.addEventListener("keydown", function(event) {
+        if (event.key === "Enter" && document.activeElement === document.getElementById("message")) {
+            sendMessage();
+            }
+    });
+
+    window.onload = function() {
+        scrollToBottom();
+    };
+</script>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Log in{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-centre">Вхід</h1>
+    <form method="post" action="/login">
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input class="form-control" type="email" id="email" name="email" placeholder="Введіть свою пошту">
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input class="form-control" type="password" id="password" name="password" placeholder="Введіть свій пароль">
+        </div><br>
+        <div class="form-group">
+            <button type="submit" class="btn btn-warning">Submit</button>
+        </div><br>
+        <p style="color: FireBrick;">{{user_not_found}}</p><br>
+    </form>
+    <h2>Ще не зареєстровані? - <a href="{{url_for('registration_form')}}" type="button" class="btn btn-warning">Sign-up</a></h2>
+</div>
+
+{% endblock %}

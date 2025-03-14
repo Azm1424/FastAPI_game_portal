@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Rankings of games{% endblock %}
+
+{% block content %}
+<p style="font-family: segoe script; font-size: 3.5em; font-weight: bold; color: DodgerBlue;" class="center">Світ ігор</p><br>
+<div class="container">
+    <div class="row">
+        {% for i in games %}
+            <div class="col-4">
+                <div class="card m-1 p-0">
+                    <a href="{{url_for('inspection_of_the_game', id=i[0])}}"><img width="407px;" src="{{i[1]}}"></a>
+                    <p>{{i[2]}}</p>
+                    <p>{{i[4]}}</p><br>
+                    <h5>{{i[3]}}</h5>
+                    <h2>{{i[5]}}</h2><br><br>
+                    <a href="{{url_for('inspection_of_the_game', id=i[0])}}" class="btn btn-info text-white"><b>Сторінка гри</b></a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
