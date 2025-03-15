@@ -1,10 +1,6 @@
-import datetime
+from imports import (DeclarativeBase, AsyncSession, create_async_engine, async_sessionmaker, Column, Integer, String,
+                     Float, DateTime, Text, desc, select, status, datetime)
 import pytz
-from sqlalchemy.orm import DeclarativeBase, sessionmaker, MappedColumn, mapped_column
-from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, AsyncEngine, async_sessionmaker
-from sqlalchemy import Column, Integer, String, Float, DateTime, Text, desc
-from sqlalchemy.future import select
-from imports import *
 
 DATABASE_URL = "mysql+aiomysql://root:My8041SQLite@localhost/db_project"
 engine = create_async_engine(DATABASE_URL, echo=True)
@@ -78,10 +74,12 @@ async def get_game(id):
         games = await session.execute(select(Game.__table__.columns).where(Game.id == id))
     return games.fetchone()
 
+
 async def get_reviews(game_id):
     async with async_session() as session:
         reviews = await session.execute(select(Review.__table__.columns).where(Review.game_id == game_id))
     return reviews.fetchall()
+
 
 async def add_user(username: str, email: str, password: str):
     async with async_session() as session:
@@ -90,6 +88,7 @@ async def add_user(username: str, email: str, password: str):
             session.add(new_user)
     return {'mess': 'User registered', 'status': status.HTTP_200_OK}
 
+
 async def add_profile(username: str):
     async with async_session() as session:
         async with session.begin():
@@ -97,12 +96,14 @@ async def add_profile(username: str):
             session.add(new_profile)
     return {'mess': 'User registered', 'status': status.HTTP_200_OK}
 
-async def add_review(id: int, username: str, review: str, rating: int, created: datetime = datetime.datetime.now(ukrainian_time)):
+
+async def add_review(id: int, username: str, review: str, rating: int, created: datetime = datetime.now(ukrainian_time)):
     async with async_session() as session:
         async with session.begin():
             new_review = Review(game_id=id, username=username, review=review, rating=rating, created=created)
             session.add(new_review)
     return {'status': status.HTTP_200_OK}
+
 
 async def update_profile(name: str, age: str, country: str, city: str, contacts: str, favourite_game: str, username):
     async with async_session() as session:
@@ -119,6 +120,7 @@ async def update_profile(name: str, age: str, country: str, city: str, contacts:
                 await session.commit()
     return {'status': status.HTTP_200_OK}
 
+
 async def update_avg_users_rating(avg_users_rating: float, game_id):
     async with async_session() as session:
         async with session.begin():
@@ -128,6 +130,7 @@ async def update_avg_users_rating(avg_users_rating: float, game_id):
             await session.commit()
     return {'status': status.HTTP_200_OK}
 
+
 async def update_review(review: str, rating: int, game_id, username):
     async with async_session() as session:
         async with session.begin():
@@ -135,7 +138,7 @@ async def update_review(review: str, rating: int, game_id, username):
             result = selected_review.scalars().first()
             result.review = review
             result.rating = rating
-            result.created = datetime.datetime.now(ukrainian_time)
+            result.created = datetime.now(ukrainian_time)
             await session.commit()
     return {'status': status.HTTP_200_OK}
 
