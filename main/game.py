@@ -1,12 +1,12 @@
 from imports import (APIRouter, Request, Optional, Security, get_current_user, Form, templates, RedirectResponse,
                      get_reviews, check_review, update_avg_users_rating, add_review, update_review, get_game)
+from websocket import manager
 
 
 router = APIRouter()
 
 @router.api_route('/game/{id}', methods=['GET', 'POST'])
 async def inspection_of_the_game(request: Request, id: int, review: str = Form(None), rating: int = Form(None), username: Optional[str] = Security(get_current_user)):
-    from main import manager
     try:
         reviews = await get_reviews(id)
         if request.method == 'POST':

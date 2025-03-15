@@ -11,8 +11,6 @@ from main_page_and_search import router as main_page_and_search_router
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-manager = ConnectionManager()
-
 app.include_router(tops_router)
 app.include_router(reg_and_profile_router)
 app.include_router(login_logout_router)
