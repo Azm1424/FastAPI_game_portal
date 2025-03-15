@@ -1,6 +1,7 @@
 from imports import APIRouter, WebSocket, WebSocketDisconnect, Dict, List, SECRET_KEY
 import jwt
 
+
 router = APIRouter()
 
 class ConnectionManager:
@@ -39,10 +40,9 @@ class ConnectionManager:
         except Exception as e:
             return {'mess': e}
 
-manager = ConnectionManager()
-
 @router.websocket("/ws/game/{id}")
 async def websocket_endpoint(websocket: WebSocket, id: str):
+    from main import manager
     await manager.connect(websocket, id)
     token = websocket.cookies.get('access_token')
     username = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])['sub']
