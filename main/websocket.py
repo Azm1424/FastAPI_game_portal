@@ -9,6 +9,7 @@ class ConnectionManager:
     def __init__(self):
         self.active_connections: Dict[str, List[WebSocket]] = {}
         self.chat_history: Dict[str, List] = {}
+        self.disconnected_websockets: Dict[str, List] = {}
 
     async def connect(self, websocket: WebSocket, game_id: str):
         try:
@@ -20,25 +21,30 @@ class ConnectionManager:
         except Exception as e:
             return {'mess': e}
 
-    def disconnect(self, websocket: WebSocket, game_id: str):
+    async def disconnect(self, websocket: WebSocket, game_id: str):
         try:
             if game_id in self.active_connections:
-                self.active_connections[game_id].remove(websocket)
+                if websocket in self.active_connections[game_id]:
+                    self.active_connections[game_id].remove(websocket)
+                    await websocket.close()
                 if not self.active_connections[game_id]:
                     del self.active_connections[game_id]
         except Exception as e:
             return {'mess': e}
 
     async def broadcast(self, message: str, game_id: str):
-        try:
-            if game_id in self.active_connections:
-                for connection in self.active_connections[game_id]:
+        if game_id in self.active_connections:
+            self.disconnected_websockets[game_id] = []
+            for connection in self.active_connections[game_id]:
+                try:
                     await connection.send_text(message)
-                self.chat_history[game_id].append(message)
-                if len(self.chat_history[game_id]) > 100:
-                    self.chat_history[game_id].pop(0)
-        except Exception as e:
-            return {'mess': e}
+                except:
+                    self.disconnected_websockets[game_id].append(connection)
+            for websocket in self.disconnected_websockets[game_id]:
+                await self.disconnect(websocket, game_id)
+            self.chat_history[game_id].append(message)
+            if len(self.chat_history[game_id]) > 100:
+                self.chat_history[game_id].pop(0)
 
 manager = ConnectionManager()
 
@@ -46,14 +52,14 @@ manager = ConnectionManager()
 async def websocket_endpoint(websocket: WebSocket, id: str):
     await manager.connect(websocket, id)
     token = websocket.cookies.get('access_token')
-    username = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])['sub']
     try:
+        username = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])['sub']
         while True:
             data = await websocket.receive_text()
             if data:
                 await manager.broadcast(f"{username}: {data}", id)
     except WebSocketDisconnect:
-        manager.disconnect(websocket, id)
+        await manager.disconnect(websocket, id)
     except Exception as e:
         print(f"Error: {e}")
-        manager.disconnect(websocket, id)
+        await manager.disconnect(websocket, id)
